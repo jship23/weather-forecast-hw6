@@ -25,7 +25,9 @@ $("#searchBtn").on("click", function (event) {
       url: queryURLCurrent,
       method: "GET",
     }).then(function (response) {
-      var currentDay = $("#current-weather").text(moment().format("dddd, MMMM Do"));
+      var fiveDayDate = $("<h4>").text(
+        new Date(response.dt * 1000).toDateString()
+      );
     console.log(response);
     var cityName = $("<h3>").html(response.name);
     console.log(cityName);
@@ -49,7 +51,10 @@ $("#searchBtn").on("click", function (event) {
       dayArr.forEach(function (i) {
         
         var cardDate = fiveDayResponse.list;
-
+        var fiveDayDate = $("<h4>").text(
+          new Date(cardDate[i].dt * 1000).toDateString()
+        );
+        console.log(fiveDayDate)
         console.log(cityName);
         var temp = $("<h5>").text("Temperature: " + cardDate[i].main.temp +"°F");
         console.log(temp);
@@ -57,20 +62,10 @@ $("#searchBtn").on("click", function (event) {
         console.log(humidity);
         var windSpeed = $("<h5>").text("Wind Speed: " + cardDate[i].wind.speed + "mph");
         console.log(windSpeed);
-        $("#5day-weather").append(cityName, temp, humidity, windSpeed);
+        $("#5day-weather").append(fiveDayDate, temp, humidity, windSpeed);
       })
     });
 
-    // // Array for 5-days 
-    // var day = [0, 8, 16, 24, 32];
-    // var fiveDayCard = $(".fiveDayCard").addClass("card-body");
-    // var fiveDayDiv = $(".fiveDayOne").addClass("card-text");
-    // fiveDayDiv.empty();
-    // // For each for 5 days
-    // day.forEach(function (i) {
-    //     var FiveDayTimeUTC1 = new Date(response.list[i].dt * 1000);
-    //     FiveDayTimeUTC1 = FiveDayTimeUTC1.toLocaleDateString("en-US");
-
-    //     fiveDayDiv.append("<div class=fiveDayColor>" + "<p>" + FiveDayTimeUTC1 + "</p>" + `<img src="https://openweathermap.org/img/wn/${response.list[i].weather[0].icon}@2x.png">` + "<p>" + "Temperature: " + response.list[i].main.temp + "</p>" + "<p>" + "Humidity: " + response.list[i].main.humidity + "%" + "</p>" + "</div>");
+    
   });
 });
