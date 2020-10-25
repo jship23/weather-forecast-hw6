@@ -5,14 +5,15 @@ var apiKey = "0ffcc1aa1c7ff0e151c44cb2f4864c7a";
 $("#searchBtn").on("click", function (event) {
   event.preventDefault();
   var cityName = $("#city-name").val();
+  console.log(cityName);
   var queryURLCurrent =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    cityName +
+    cityName + "&units=imperial" +
     "&appid=" +
     apiKey;
   var queryURL5day =
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
-    cityName +
+    cityName + "&units=imperial" +
     "&appid=" +
     apiKey;
 
@@ -22,13 +23,16 @@ $("#searchBtn").on("click", function (event) {
     method: "GET",
   }).then(function (response) {
     console.log(response);
-    var cityName = response.cityName;
-    var temp = response.main.temp;
-    var humidity = response.main.humidity;
-    var windSpeed = response.wind.speed;
-
+    var cityName = $("<h3>").html("City: " + response.name);
+    console.log(cityName);
+    var temp = $("<h5>").html("Temperature: " + response.main.temp + "°F");
+    console.log(temp);
+    var humidity = $("<h5>").html("Humidity: " + response.main.humidity);
+    console.log(humidity);
+    var windSpeed = $("<h5>").html("Wind Speed: " + response.wind.speed);
+    console.log(windSpeed)
+    $("#current-weather").append(cityName, temp, humidity, windSpeed);
     
-
   });
 
 
